@@ -1,5 +1,0 @@
-cd chemin/vers/votre-depot
-# copiez le dossier backend/ téléchargé dans la racine du dépôt
-git add backend/
-git commit -m "Ajout du backend Node.js + Express + SQLite"
-git push origin main
