@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Suivi Enfant",
-    "slug": "app-enfant-suivi",
+    "slug": "mon-enfant",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
