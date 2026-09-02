@@ -16,7 +16,7 @@
       "infoPlist": {
         "UIBackgroundModes": ["location", "fetch"],
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre pendant le trajet école-maison.",
-        "NSLocationWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre.",
+        "NSLocationWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre trajet.",
         "NSLocationAlwaysUsageDescription": "Cette application a besoin de votre position en arrière-plan pour le suivi du trajet."
       }
     },
@@ -34,6 +34,12 @@
         "notificationBody": "Votre position est partagée avec vos parents.",
         "notificationColor": "#4F46E5"
       }
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ca827da8-8e2c-463e-8d58-126bc252df29"
+      }
+    },
+    "owner": "alohoury1s"
   }
 }
