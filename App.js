@@ -19,8 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // CONFIGURATION
 // ------------------------------------------------------------------
 // Remplacez par l'URL de votre backend (voir le projet "backend-suivi")
-const API_URL = 'https://votre-backend.example.com/api/positions';
-
+const API_URL = 'https://mon-enfant-production-be5d.up.railway.app/api/positions';
 const LOCATION_TASK_NAME = 'background-location-task';
 const STORAGE_KEY_CHILD_ID = 'childDeviceId';
 const STORAGE_KEY_TRACKING = 'trackingEnabled';
