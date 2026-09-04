@@ -171,9 +171,9 @@ export default function App() {
         return;
       }
 
-      await AsyncStorage.setItem(STORAGE_KEY_CHILD_ID, data.id);
+      await AsyncStorage.setItem(STORAGE_KEY_CHILD_ID, data.childId);
       await AsyncStorage.setItem(STORAGE_KEY_PIN, pin);
-      setSavedChildId(data.id);
+      setSavedChildId(data.childId);
     } catch (e) {
       Alert.alert(
         'Erreur',
