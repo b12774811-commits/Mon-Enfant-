@@ -9,12 +9,17 @@
     "splash": {
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.votrenom.suivienfant",
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"],
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ],
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre pendant le trajet école-maison.",
         "NSLocationWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre trajet.",
         "NSLocationAlwaysUsageDescription": "Cette application a besoin de votre position en arrière-plan pour le suivi du trajet."
@@ -33,6 +38,11 @@
         "notificationTitle": "Suivi de trajet actif",
         "notificationBody": "Votre position est partagée avec vos parents.",
         "notificationColor": "#4F46E5"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "779cf452-9c71-4a0e-b8be-08ed8ad8d800"
       }
     }
   }

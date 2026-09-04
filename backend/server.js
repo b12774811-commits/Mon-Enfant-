@@ -2,15 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const crypto = require('crypto');
 const path = require('path');
-const Database = require('better-sqlite3');
+const { DatabaseSync } = require('node:sqlite');
 const { customAlphabet } = require('nanoid');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = new Database(path.join(__dirname, 'data.db'));
-db.pragma('journal_mode = WAL');
+const db = new DatabaseSync(path.join(__dirname, 'data.db'));
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS children (
