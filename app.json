@@ -20,18 +20,19 @@
         "NSLocationAlwaysUsageDescription": "Cette application a besoin de votre position en arrière-plan pour le suivi du trajet."
       }
     },
-    "android": {
-      "package": "com.votrenom.suivienfant",
-      "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION",
-        "FOREGROUND_SERVICE",
-        "FOREGROUND_SERVICE_LOCATION"
-      ],
-      "foregroundService": {
-        "notificationTitle": "Suivi de trajet actif",
-        "notificationBody": "Votre position est partagée avec vos parents.",
+   "android": {
+  "package": "com.votrenom.suivienfant",
+  "permissions": [
+    "ACCESS_FINE_LOCATION",
+    "ACCESS_COARSE_LOCATION",
+    "ACCESS_BACKGROUND_LOCATION",
+    "FOREGROUND_SERVICE",
+    "FOREGROUND_SERVICE_LOCATION"
+  ],
+  "foregroundServiceType": ["location"],
+  "foregroundService": {
+    "notificationTitle": "Suivi de trajet actif",
+   "notificationBody": "Votre position est partagée avec vos parents.",
         "notificationColor": "#4F46E5"
       }
     }
