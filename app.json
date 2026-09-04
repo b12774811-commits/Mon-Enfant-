@@ -6,12 +6,28 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+
     "splash": {
       "backgroundColor": "#ffffff"
     },
+
     "assetBundlePatterns": [
-      "**/*"
+      "*/"
     ],
+
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Cette application utilise votre position pour permettre à vos parents de suivre votre trajet.",
+          "locationAlwaysAndWhenInUsePermission": "Cette application utilise votre position pour permettre à vos parents de suivre votre trajet, même en arrière-plan.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ]
+    ],
+
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.votrenom.suivienfant",
@@ -20,11 +36,10 @@
           "location",
           "fetch"
         ],
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre pendant le trajet école-maison.",
-        "NSLocationWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre trajet.",
-        "NSLocationAlwaysUsageDescription": "Cette application a besoin de votre position en arrière-plan pour le suivi du trajet."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Cette application utilise votre position pour permettre à vos parents de vous suivre pendant le trajet école-maison."
       }
     },
+
     "android": {
       "package": "com.votrenom.suivienfant",
       "permissions": [
@@ -40,6 +55,7 @@
         "notificationColor": "#4F46E5"
       }
     },
+
     "extra": {
       "eas": {
         "projectId": "779cf452-9c71-4a0e-b8be-08ed8ad8d800"

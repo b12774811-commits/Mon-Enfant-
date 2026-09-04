@@ -46,10 +46,38 @@ function verifyPin(pin, salt, expectedHash) {
   return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(expectedHash));
 }
 
+// ------------------------------------------------------------------
+// SANTÉ / DIAGNOSTIC
+// ------------------------------------------------------------------
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// NOUVEAU : liste tous les appareils enregistrés (utile pour vérifier
+// si la base de données a été réinitialisée par Railway après un
+// redémarrage — si un childId créé hier n'apparaît plus ici, c'est
+// que la base a été effacée, probablement faute de volume persistant).
+app.get('/api/debug/children', (req, res) => {
+  const children = db
+    .prepare('SELECT id, name, created_at FROM children ORDER BY created_at DESC')
+    .all();
+  res.json({ count: children.length, children });
+});
+
+// NOUVEAU : voir le nombre total de positions enregistrées, tous
+// enfants confondus, avec la plus récente. Pratique pour vérifier en
+// un coup d'œil si l'app enfant envoie quoi que ce soit.
+app.get('/api/debug/positions', (req, res) => {
+  const count = db.prepare('SELECT COUNT(*) AS n FROM positions').get().n;
+  const latest = db
+    .prepare('SELECT * FROM positions ORDER BY received_at DESC LIMIT 5')
+    .all();
+  res.json({ count, latest });
+});
+
+// ------------------------------------------------------------------
+// APPAIRAGE
+// ------------------------------------------------------------------
 app.post('/api/children', (req, res) => {
   const { name, pin } = req.body || {};
 
@@ -92,6 +120,9 @@ app.post('/api/children/:childId/verify-pin', (req, res) => {
   res.json({ valid });
 });
 
+// ------------------------------------------------------------------
+// POSITIONS
+// ------------------------------------------------------------------
 app.post('/api/positions', (req, res) => {
   const { childId, latitude, longitude, accuracy, timestamp } = req.body || {};
 
