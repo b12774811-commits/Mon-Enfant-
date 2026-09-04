@@ -34,12 +34,6 @@
         "notificationBody": "Votre position est partagée avec vos parents.",
         "notificationColor": "#4F46E5"
       }
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ca827da8-8e2c-463e-8d58-126bc252df29"
-      }
-    },
-    "owner": "alohoury1s-team"
+    }
   }
 }
