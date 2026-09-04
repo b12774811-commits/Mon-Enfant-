@@ -6,35 +6,42 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+
     "splash": {
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Cette application utilise votre position pour permettre à vos parents de suivre votre trajet.",
+          "locationAlwaysAndWhenInUsePermission": "Cette application utilise votre position pour permettre à vos parents de suivre votre trajet, même en arrière-plan.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ]
+    ],
+
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.votrenom.suivienfant",
-      "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"],
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre pendant le trajet école-maison.",
-        "NSLocationWhenInUseUsageDescription": "Cette application a besoin de votre position pour permettre à vos parents de vous suivre trajet.",
-        "NSLocationAlwaysUsageDescription": "Cette application a besoin de votre position en arrière-plan pour le suivi du trajet."
-      }
+      "bundleIdentifier": "com.votrenom.suivienfant"
     },
-   "android": {
-  "package": "com.votrenom.suivienfant",
-  "permissions": [
-    "ACCESS_FINE_LOCATION",
-    "ACCESS_COARSE_LOCATION",
-    "ACCESS_BACKGROUND_LOCATION",
-    "FOREGROUND_SERVICE",
-    "FOREGROUND_SERVICE_LOCATION"
-  ],
-  "foregroundServiceType": ["location"],
-  "foregroundService": {
-    "notificationTitle": "Suivi de trajet actif",
-   "notificationBody": "Votre position est partagée avec vos parents.",
-        "notificationColor": "#4F46E5"
-      }
+
+    "android": {
+      "package": "com.votrenom.suivienfant",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
+      ]
     }
   }
 }
