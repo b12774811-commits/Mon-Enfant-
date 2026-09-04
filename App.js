@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Switch,
   Modal,
+  AppState,
 } from 'react-native';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
@@ -21,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Remplacez par l'URL de votre backend (voir le projet "backend-suivi")
 const API_BASE = 'https://mon-enfant-production-be5d.up.railway.app';
 const API_URL = `${API_BASE}/api/positions`;
+
 const LOCATION_TASK_NAME = 'background-location-task';
 const STORAGE_KEY_CHILD_ID = 'childDeviceId';
 const STORAGE_KEY_TRACKING = 'trackingEnabled';
@@ -30,6 +32,33 @@ const STORAGE_KEY_PIN = 'parentPin';
 // Dans une vraie version, validez-le côté serveur (le backend connaît le PIN
 // associé au childId) plutôt que de le stocker sur le téléphone de l'enfant,
 // sans quoi un enfant technophile pourrait le retrouver dans le stockage de l'app.
+
+// ------------------------------------------------------------------
+// CORRECTIF ANDROID 14 : attend que l'app soit revenue au premier plan
+// avant de démarrer le service de localisation.
+//
+// Pourquoi : sur Android 14, demander la permission "toujours autoriser"
+// (requestBackgroundPermissionsAsync) ouvre l'écran Réglages du téléphone,
+// ce qui fait passer l'app en arrière-plan. Si on démarre immédiatement
+// après le service de localisation en premier plan (foreground service),
+// Android le refuse et l'application plante, car ce type de service ne
+// peut pas être démarré tant que l'app n'est pas complètement revenue au
+// premier plan.
+// ------------------------------------------------------------------
+function waitForAppActive() {
+  return new Promise((resolve) => {
+    if (AppState.currentState === 'active') {
+      resolve();
+      return;
+    }
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        sub.remove();
+        resolve();
+      }
+    });
+  });
+}
 
 // ------------------------------------------------------------------
 // TÂCHE DE FOND : appelée par le système même app fermée
@@ -102,6 +131,7 @@ export default function App() {
       );
       return false;
     }
+
     const background = await Location.requestBackgroundPermissionsAsync();
     if (background.status !== 'granted') {
       Alert.alert(
@@ -110,6 +140,7 @@ export default function App() {
       );
       return false;
     }
+
     setPermissionStatus('granted');
     return true;
   }, []);
@@ -118,6 +149,11 @@ export default function App() {
     try {
       const granted = await requestPermissions();
       if (!granted) return;
+
+      // ⬇️ CORRECTIF : on s'assure que l'app est bien revenue au premier
+      // plan avant de démarrer le service de localisation (obligatoire
+      // sur Android 14, sinon l'app plante).
+      await waitForAppActive();
 
       const servicesEnabled = await Location.hasServicesEnabledAsync();
       if (!servicesEnabled) {
@@ -131,6 +167,7 @@ export default function App() {
       const alreadyStarted = await Location.hasStartedLocationUpdatesAsync(
         LOCATION_TASK_NAME
       );
+
       if (!alreadyStarted) {
         await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
           accuracy: Location.Accuracy.Balanced,
@@ -143,6 +180,7 @@ export default function App() {
           },
         });
       }
+
       await AsyncStorage.setItem(STORAGE_KEY_TRACKING, 'true');
       setTrackingEnabled(true);
     } catch (e) {
@@ -165,7 +203,6 @@ export default function App() {
   };
 
   const [pairing, setPairing] = useState(false);
-
   const handlePair = async () => {
     if (!/^\d{4}$/.test(pin)) {
       Alert.alert('Erreur', "Le code PIN parent doit contenir 4 chiffres.");
@@ -179,7 +216,6 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin }),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -213,7 +249,9 @@ export default function App() {
       Alert.alert('Code incorrect', "Ce code PIN n'est pas correct.");
       return;
     }
+
     setPinModalVisible(false);
+
     if (pendingAction === 'stop') {
       await stopTracking();
     } else if (pendingAction === 'unpair') {
@@ -224,6 +262,7 @@ export default function App() {
       setChildId('');
       setPin('');
     }
+
     setPendingAction(null);
   };
 
